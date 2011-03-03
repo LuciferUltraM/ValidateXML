@@ -17,31 +17,12 @@
 
 
 <?php
+
 ##############################
 ## Develop by LuciferUltraM
 ##############################
 
-if ($_POST['upload'] == '1' && !empty($_FILES["file"]["name"])) {
-
-    if ($_FILES["file"]["error"] > 0) {
-        echo "Return Code: " . $_FILES["file"]["error"] . "<br/>";
-    } else {
-        echo "Upload: " . $_FILES["file"]["name"] . "<br/>";
-        echo "Type: " . $_FILES["file"]["type"] . "<br/>";
-        echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br/>";
-        echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br/>";
-        copy($_FILES['file']['tmp_name'], "upload/".$_FILES["file"]["name"]);
-        echo "Copy file: " ."upload/".$_FILES["file"]["name"]. "<br/>";
-        $xmlname = "upload/".$_FILES["file"]["name"];
-// Enable user error handling
-        libxml_use_internal_errors(true);
-
-        $xml = new DOMDocument();
-        $xml->load($xmlname);
-        libxml_display_errors();
-    }
-}
-
+##################### Function Display XML Error ###########################
 function libxml_display_error($error) {
     $return = "<br/>\n";
     switch ($error->level) {
@@ -72,6 +53,30 @@ function libxml_display_errors() {
     libxml_clear_errors();
 }
 
+
+
+##################### Upload XML file ###########################
+if ($_POST['upload'] == '1' && !empty($_FILES["file"]["name"])) {
+
+    if ($_FILES["file"]["error"] > 0) {
+        echo "Return Code: " . $_FILES["file"]["error"] . "<br/>";
+    } else {
+        echo "Upload: " . $_FILES["file"]["name"] . "<br/>";
+        echo "Type: " . $_FILES["file"]["type"] . "<br/>";
+        echo "Size: " . ($_FILES["file"]["size"] / 1024) . " Kb<br/>";
+        echo "Temp file: " . $_FILES["file"]["tmp_name"] . "<br/>";
+        copy($_FILES['file']['tmp_name'], "upload/".$_FILES["file"]["name"]);
+        echo "Copy file: " ."upload/".$_FILES["file"]["name"]. "<br/>";
+        $xmlname = "upload/".$_FILES["file"]["name"];
+
+// Enable user error handling
+        libxml_use_internal_errors(true);
+
+        $xml = new DOMDocument();
+        $xml->load($xmlname);
+        libxml_display_errors();
+    
+##################### Read file & Check Special Character ###########################
 $handle = @fopen($xmlname, "r");
 if ($handle) {
     $line = 0;
@@ -96,4 +101,12 @@ if ($handle) {
     }
     fclose($handle);
 }
+    
+    
+    }
+}
+
+
+
+
 ?>
