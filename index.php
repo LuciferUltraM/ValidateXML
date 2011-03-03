@@ -17,7 +17,10 @@
 
 
 <?php
-/* Develop by LuciferUltraM */
+##############################
+## Develop by LuciferUltraM
+##############################
+
 if ($_POST['upload'] == '1' && !empty($_FILES["file"]["name"])) {
 
     if ($_FILES["file"]["error"] > 0) {
